@@ -1,0 +1,2 @@
+# DotNetCoreMVCProject_CE019_CE110
+Student attendance management system
