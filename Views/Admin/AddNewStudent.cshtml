@@ -1,0 +1,86 @@
+﻿@model Student
+@{
+    ViewData["Title"] = "Add Student";
+    string ErrorMessage = ViewData["ErrorMessage"] as string;
+    string SuccessMessage = ViewData["SuccessMessage"] as string;
+
+    Branch currentBranch = ViewData["Branch"] as Branch;
+}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" asp-action="Admin" asp-controller="Admin">DRU</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" asp-action="Admin" asp-controller="Admin">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" asp-action="BranchDetails" asp-controller="Admin" asp-route-id="@currentBranch.Id">@currentBranch.BranchName</a>
+        </div>
+    </div>
+    <a class="btn btn-secondary nav-item mr-3" asp-action="Logout" asp-controller="Home">Logout</a>
+</nav>
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                    <div class="card-body p-5">
+                        <form asp-action="AddStudent" asp-controller="Admin" method="post">
+                            <h3 class="mb-5 text-center">Add New Student</h3>
+                            @if (null != ErrorMessage)
+                            {
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>
+                                        @if (null != ErrorMessage)
+                                        {
+                                            @ErrorMessage
+                                        }
+                                    </strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            }
+                            @if (null != SuccessMessage)
+                            {
+                                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <strong>
+                                        @if (null != SuccessMessage)
+                                        {
+                                            @SuccessMessage
+                                        }
+                                    </strong>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            }
+                            <div class="form-outline mb-4">
+                                <input asp-for="FirstName" class="form-control form-control-lg" placeholder="Enter First Name" autofocus="autofocus" required/>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input asp-for="MiddleName" class="form-control form-control-lg" placeholder="Enter Middle Name" required />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input asp-for="LastName" class="form-control form-control-lg" placeholder="Enter Last Name" required />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input asp-for="UniversityId" class="form-control form-control-lg" placeholder="Enter Student ID" />
+                            </div>
+
+                            <div class="form-outline mb-4">
+                                <input type="date" max="2050-12-31" asp-for="DOB" class="form-control form-control-lg" placeholder="Enter DOB" required />
+                            </div>
+
+                            <input asp-for="BranchId" value="@currentBranch.Id" hidden />
+                            
+
+                            <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

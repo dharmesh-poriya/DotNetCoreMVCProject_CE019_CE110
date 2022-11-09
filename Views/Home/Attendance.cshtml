@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Attendance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string ErrorMessage = ViewData["ErrorMessage"] as string;
+    string SuccessMessage = ViewData["SuccessMessage"] as string;
+
+    Student currentStudent = ViewData["Student"] as Student;
+    List<StudentSubject> attendanceList = ViewData["SubjectWiseAttendance"] as List<StudentSubject>;
+}
+
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+        <a class="navbar-brand" asp-action="Index" asp-controller="Home">DRU(@currentStudent.UniversityId)</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link active" asp-action="Index" asp-controller="Home">Home</a>
+                <a class="nav-item nav-link" href="#">Subjects</a>
+            </div>
+        </div>
+        <a class="btn btn-secondary nav-item mr-3" asp-action="Logout" asp-controller="Home">Logout</a>
+    </nav>
+</div>
+
+@* Error messages *@
+<div>
+    @if (null != ErrorMessage)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>
+                @if (null != ErrorMessage)
+                {
+                    @ErrorMessage
+                }
+            </strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    @if (null != SuccessMessage)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>
+                @if (null != SuccessMessage)
+                {
+                    @SuccessMessage
+                }
+            </strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+</div>
+
+<div class="container">
+    <h1 class="text-center my-5">Attendance of semester</h1>
+
+    <table class="table table-striped  mt-4">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">SubjectName</th>
+                <th scope="col">Attendance</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for(int i=0;i<attendanceList.Count;i++){
+                <tr>
+                    <th scope="row">@(i+1)</th>
+                    <td>@attendanceList[i].Subject.SubjectName</td>
+                    <td>@attendanceList[i].Attendance</td>
+                </tr>
+            }
+    </table>
+</div>

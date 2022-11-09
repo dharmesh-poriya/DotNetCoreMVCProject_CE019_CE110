@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "AdminPage";
+    Layout = "~/Views/Shared/Admin_Layout.cshtml";
+
+    string ErrorMessage = ViewData["ErrorMessage"] as string;
+    string SuccessMessage = ViewData["SuccessMessage"] as string;
+
+    List<Branch> branchList = ViewData["branchList"] as List<Branch>;
+}
+
+<div>
+    @if (null != ErrorMessage)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>
+                @if (null != ErrorMessage)
+                {
+                    @ErrorMessage
+                }
+            </strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    @if (null != SuccessMessage)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>
+                @if (null != SuccessMessage)
+                {
+                    @SuccessMessage
+                }
+            </strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+</div>
+<br />
+<div class="container">
+    <h1 class="text-center mt-4 mb-4">All Branches</h1>
+    <div class="row d-flex justify-content-start mt-4">
+        @foreach (Branch b in branchList)
+        {
+            <div class="col-lg-6 col-md-4 col-sm-12 col-s-12 d-flex justify-content-center py-3">
+                <a asp-action="BranchDetails" asp-controller="Admin" asp-route-Id="@b.Id" class="col-12 btn btn-secondary py-3"><h3>@b.BranchName (@b.TotalSemester)&nbsp;</h3></a>
+            </div>
+        }
+    </div>
+</div>

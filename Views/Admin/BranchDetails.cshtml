@@ -1,0 +1,157 @@
+﻿@model Subject
+@{
+    ViewData["Title"] = "BranchDetails";
+    string ErrorMessage = ViewData["ErrorMessage"] as string;
+    string SuccessMessage = ViewData["SuccessMessage"] as string;
+
+    Branch currentBranch = ViewData["Branch"] as Branch;
+    List<Subject> subjects = ViewData["Subjects"] as List<Subject>;
+    List<Faculty> faculties = ViewData["Faculties"] as List<Faculty>;
+}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="background-color: #e3f2fd;">
+    <a class="navbar-brand" asp-action="Admin" asp-controller="Admin">DRU</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" asp-action="Admin" asp-controller="Admin">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" data-toggle="modal" data-target="#addSubjectModal" href="#">AddNewSubject</a>
+
+            <div class="modal fade" id="addSubjectModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Add New Subject</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form asp-action="AddNewSubject" asp-controller="Admin" method="post">
+                            <div class="modal-body">
+                                <div class="form-outline mb-4">
+                                    <input asp-for="SubjectName" class="form-control form-control-lg" placeholder="Enter New Subject Name" autofocus="autofocus" required />
+                                </div>
+                                <div class="form-outline mb-3">
+                                    <input asp-for="SubjectCode" class="form-control form-control-lg" placeholder="Enter Subject Code" required />
+                                </div>
+                                <div class="form-outline mb-3">
+                                    <input asp-for="SubjectDescription" class="form-control form-control-lg" placeholder="Enter Subject Description" required />
+                                </div>
+                                <div class="form-outline mb-3">
+                                    <input asp-for="SemesterNo" class="form-control form-control-lg" placeholder="Enter Semester" required />
+                                </div>
+                                <input asp-for="BranchId" value="@currentBranch.Id" hidden />
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <a class="nav-item nav-link" asp-action="AddNewStudent" asp-controller="Admin" asp-route-Id="@currentBranch.Id">AddNewStudent</a>
+            <a class="nav-item nav-link" asp-action="AddNewFaculty" asp-controller="Admin" asp-route-Id="@currentBranch.Id">AddNewFaculty</a>
+        </div>
+    </div>
+    <a class="btn btn-secondary nav-item mr-3" asp-action="Logout" asp-controller="Home">Logout</a>
+</nav>
+
+<div>
+    @if (null != ErrorMessage)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>
+                @if (null != ErrorMessage)
+                {
+                    @ErrorMessage
+                }
+            </strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    @if (null != SuccessMessage)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>
+                @if (null != SuccessMessage)
+                {
+                    @SuccessMessage
+                }
+            </strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+</div>
+
+<div class="ml-2 mr-2">
+    <h1 class="text-center mt-2">@currentBranch.BranchName</h1>
+</div>
+
+<div class="container mt-4">
+
+    <section class="mt-2">
+        <h3 class="text-info">All Subjects</h3>
+        <div class="rounded">
+
+            @{
+                <div class="row mb-5 ml-1 mr-1">
+                    @for (int i = 0; i < subjects.Count(); i++)
+                    {
+
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-s-12 mb-4 card rounded">
+                            <div class="card-body">
+                                <h5 class="card-title">@subjects[i].SubjectName (@subjects[i].SubjectCode)</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Semester : @subjects[i].SemesterNo</h6>
+                                <p class="card-text">@subjects[i].SubjectDescription</p>
+                                <a href="#" class="btn btn-secondary card-link">Edit</a>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+                <br />
+            }
+
+        </div>
+    </section>
+    <hr />
+    <section class="mt-2">
+        <h3 class="text-info">All Faculties</h3>
+        <div class="rounded">
+
+            @{
+                <div class="row mb-5 ml-1 mr-1">
+                    @for (int i = 0; i < faculties.Count(); i++)
+                    {
+                        <div class="col-lg-4 col-md-6 col-sm-6 col-s-12 card mb-4">
+                            <div class="card-body text-center">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                                 class="rounded-circle img-fluid" style="width: 150px;">
+                                <h5 class="my-3">@faculties[i].FirstName @faculties[i].LastName</h5>
+                                <p class="text-muted mb-1">@faculties[i].Email</p>
+                                <p class="text-muted mb-4">@faculties[i].Designation</p>
+                                <p class="text-muted mb-1">Subject : @faculties[i].Subject.SubjectName</p>
+                                <p class="text-muted mb-4">Semester : @faculties[i].Subject.SemesterNo</p>
+                                <div class="d-flex justify-content-center mb-2">
+                                    <button type="button" class="btn btn-primary">Edit</button>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    }
+
+                </div>
+            }
+        </div>
+    </section>
+
+</div>
+
