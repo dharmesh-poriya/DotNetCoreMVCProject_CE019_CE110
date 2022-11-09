@@ -14,3 +14,5 @@
 https://user-images.githubusercontent.com/84856389/200763924-8a28ae38-68c1-4ba1-8b1f-f06de3103c0a.mp4
 
 ---
+
+### [Schema File](https://github.com/Dharmesh-Poriya07/DotNetCoreMVCProject_CE019_CE110/blob/main/DataBase.dacpac)
